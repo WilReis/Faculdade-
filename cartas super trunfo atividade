@@ -1,7 +1,5 @@
 #include <stdio.h>
-
-// Definindo uma estrutura para armazenar os dados da carta
-struct Carta {
+ {
     char estado[1];
     char codigo[4];            
     char nomeCidade[100];       
