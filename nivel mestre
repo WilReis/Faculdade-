@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <string.h>
+
+
+struct Carta {
+    char nome[30];
+    float populacao;
+    float area;
+    float pib;
+    float densidade;
+    float pontosTuristicos;
+};
+
+
+int menorVence(float a, float b) {
+    return (a < b) ? 1 : (a > b) ? 2 : 0;
+}
+
+
+int maiorVence(float a, float b) {
+    return (a > b) ? 1 : (a < b) ? 2 : 0;
+}
+
+int main() {
+    struct Carta carta1 = {"Brasil", 211.0, 8516.0, 22000.0, 24.7, 5000.0};
+    struct Carta carta2 = {"Canadá", 38.0, 9985.0, 20000.0, 3.8, 2500.0};
+
+    int opcao1, opcao2;
+    int vencedorAtributo1, vencedorAtributo2;
+    float soma1 = 0, soma2 = 0;
+
+    printf("=== SUPER TRUNFO - DESAFIO FINAL ===\n\n");
+
+    printf("Carta 1: %s\n", carta1.nome);
+    printf("Carta 2: %s\n\n", carta2.nome);
+
+ 
+    printf("Escolha o PRIMEIRO atributo para comparar:\n");
+    printf("1 - Populacao\n");
+    printf("2 - Area\n");
+    printf("3 - PIB\n");
+    printf("4 - Densidade Demografica\n");
+    printf("5 - Pontos Turisticos\n");
+    printf("Opcao: ");
+    scanf("%d", &opcao1);
+
+    if (opcao1 < 1 || opcao1 > 5) {
+        printf("\nOpcao invalida! Encerrando o jogo.\n");
+        return 0;
+    }
+
+   -
+    printf("\nEscolha o SEGUNDO atributo para comparar (diferente do primeiro):\n");
+    for (int i = 1; i <= 5; i++) {
+        if (i == opcao1) continue; // remove a opção já usada
+        switch (i) {
+            case 1: printf("1 - Populacao\n"); break;
+            case 2: printf("2 - Area\n"); break;
+            case 3: printf("3 - PIB\n"); break;
+            case 4: printf("4 - Densidade Demografica\n"); break;
+            case 5: printf("5 - Pontos Turisticos\n"); break;
+        }
+    }
+    printf("Opcao: ");
+    scanf("%d", &opcao2);
+
+    if (opcao2 < 1 || opcao2 > 5 || opcao2 == opcao1) {
+        printf("\nOpcao invalida! Encerrando o jogo.\n");
+        return 0;
+    }
+
+    printf("\n=== RESULTADOS DAS COMPARACOES ===\n");
+
+
+    for (int i = 1; i <= 5; i++) {
+        float valor1, valor2;
+
+        switch (i) {
+            case 1: valor1 = carta1.populacao; valor2 = carta2.populacao; break;
+            case 2: valor1 = carta1.area; valor2 = carta2.area; break;
+            case 3: valor1 = carta1.pib; valor2 = carta2.pib; break;
+            case 4: valor1 = carta1.densidade; valor2 = carta2.densidade; break;
+            case 5: valor1 = carta1.pontosTuristicos; valor2 = carta2.pontosTuristicos; break;
+            default: continue;
+        }
+
+        
+        if (i == opcao1 || i == opcao2) {
+            const char *nomeAtributo;
+            switch (i) {
+                case 1: nomeAtributo = "Populacao (milhoes)"; break;
+                case 2: nomeAtributo = "Area (mil km²)"; break;
+                case 3: nomeAtributo = "PIB (bilhoes)"; break;
+                case 4: nomeAtributo = "Densidade (hab/km²)"; break;
+                case 5: nomeAtributo = "Pontos Turisticos"; break;
+                default: nomeAtributo = "Desconhecido"; break;
+            }
+
+            printf("\n%s:\n", nomeAtributo);
+            printf("%s: %.2f | %s: %.2f\n", carta1.nome, valor1, carta2.nome, valor2);
+
+            int resultado = (i == 4) ? menorVence(valor1, valor2) : maiorVence(valor1, valor2);
+
+            resultado == 1 ? printf("-> %s venceu neste atributo!\n", carta1.nome) :
+            resultado == 2 ? printf("-> %s venceu neste atributo!\n", carta2.nome) :
+                             printf("-> Empate neste atributo!\n");
+
+            soma1 += valor1;
+            soma2 += valor2;
+        }
+    }
+
+    printf("\n=== SOMA DOS ATRIBUTOS ===\n");
+    printf("%s: %.2f\n", carta1.nome, soma1);
+    printf("%s: %.2f\n", carta2.nome, soma2);
+
+
+    printf("\n=== RESULTADO FINAL ===\n");
+    (soma1 > soma2) ? printf("%s venceu a rodada!\n", carta1.nome) :
+    (soma2 > soma1) ? printf("%s venceu a rodada!\n", carta2.nome) :
+                      printf("Empate!\n");
+
+    printf("\n=== FIM DO JOGO ===\n");
+
+    return 0;
+}
